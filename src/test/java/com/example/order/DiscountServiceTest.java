@@ -12,7 +12,11 @@ class DiscountServiceTest {
 
     @Test
     void testApplyDiscount_Over20Items() {
-        Order order = new Order("John Doe", true, 21, 100.0, null);
+        Order order = new Order("John Doe",
+                true,
+                21,
+                100.0,
+                null);
         discountService.applyDiscount(order);
         assertEquals(85.0, order.getTotalAmount());  // 15% desconto
     }
@@ -39,13 +43,27 @@ class DiscountServiceTest {
     }
 
     @Test
-    void testApplyDiscount_DuringPromotionPeriod() {
+    void testApplyDiscount_DuringPromotionPeriod2() {
         Order order = new Order("Mary Doe", false, 6, 100.0, null);
         LocalDate today = LocalDate.now();
-        if (!today.isBefore(LocalDate.of(today.getYear(), 12, 1)) && !today.isAfter(LocalDate.of(today.getYear(), 12, 31))) {
-            discountService.applyDiscount(order);
-            assertEquals(95.0, order.getTotalAmount());  // 5% desconto durante promoção
-        }
+        LocalDate promoStart = today.minusDays(1);
+        LocalDate promoEnd = today.plusDays(1);
+
+        discountService.aplicaDescontoDataPromocional(order, today, promoStart, promoEnd);
+        assertEquals(95.0, order.getTotalAmount());  // 5% desconto durante promoção
+
+    }
+
+    @Test
+    void testApplyDiscount_NotDuringPromotionPeriod() {
+        Order order = new Order("Mary Doe", false, 6, 100.0, null);
+        LocalDate today = LocalDate.now();
+        LocalDate promoStart = today.plusDays(1);
+        LocalDate promoEnd = today.plusDays(5);
+
+        discountService.aplicaDescontoDataPromocional(order, today, promoStart, promoEnd);
+        assertEquals(100.0, order.getTotalAmount());  // 5% desconto durante promoção
+
     }
 
     @Test
