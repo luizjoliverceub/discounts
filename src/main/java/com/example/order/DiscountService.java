@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class DiscountService {
 
-    protected PromoService promoService;
+    protected PromoService promoService = new PromoService();
 
     public PromoService getPromoService() {
         return promoService;
@@ -27,10 +27,8 @@ public class DiscountService {
 
         // Verificação de data promocional
         LocalDate today = LocalDate.now();
-        LocalDate promoStart = LocalDate.of(today.getYear(), 12, 1);
-        LocalDate promoEnd = LocalDate.of(today.getYear(), 12, 31);
 
-        aplicaDescontoDataPromocional(order, today, promoStart, promoEnd);
+        aplicaDescontoDataPromocional(order, today);
 
         // Verificação de código de cupom
         if (order.hasCoupon()) {  // 7ª decisão
@@ -43,8 +41,8 @@ public class DiscountService {
         }
     }
 
-    protected static void aplicaDescontoDataPromocional(Order order, LocalDate today, LocalDate promoStart, LocalDate promoEnd) {
-        if (!today.isBefore(promoStart) && !today.isAfter(promoEnd)) {  // 4ª decisão
+    protected void aplicaDescontoDataPromocional(Order order, LocalDate today) {
+        if (promoService.checkPromoPeriod(today)) {
             if (order.getItemCount() > 5 && !order.isLoyaltyMember()) {  // 5ª e 6ª decisões (&&)
                 order.applyDiscount(order.getTotalAmount() * 0.05);
             }
