@@ -26,3 +26,5 @@
     Se o pedido não tiver 20 ou mais itens, mas o cliente for membro do clube de fidelidade e tiver mais de 10 itens, aplica-se o desconto de 10%.
     Verifica-se então se o pedido foi feito durante o período promocional de dezembro e se o cliente não é membro, aplicando um desconto de 5% se o pedido tiver mais de 5 itens.
     Por fim, se o cliente fornecer um código de cupom válido, aplica-se o desconto correspondente ao cupom, sendo o de maior valor entre os aplicáveis.
+
+# Grupo : Luiz Joliver , Renato alves , Joao vieira
