@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public class DiscountService {
 
+    protected PromoService promoService;
+
     public PromoService getPromoService() {
         return promoService;
     }
@@ -11,8 +13,6 @@ public class DiscountService {
     public void setPromoService(PromoService promoService) {
         this.promoService = promoService;
     }
-
-    protected PromoService promoService;
 
     public void applyDiscount(Order order) {
         if (order.getItemCount() >= 20) {  // 1ª decisão
